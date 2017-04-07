@@ -9,4 +9,8 @@ WORKDIR /src
 RUN curl -Lo wsc-${API_VERSION}.tar.gz https://github.com/forcedotcom/wsc/archive/${API_VERSION}.tar.gz && tar xvfz wsc-${API_VERSION}.tar.gz
 
 WORKDIR /src/wsc-${API_VERSION}
-RUN mvn clean package -Dgpg.skip
+RUN mvn clean package -Dgpg.skip && mv target/*.jar $JAVA_HOME/lib
+
+WORKDIR /
+RUN rm -rf /src
+
