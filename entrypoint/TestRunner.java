@@ -62,7 +62,10 @@ public class TestRunner {
         triggerAr = triggerSources.toArray(triggerAr);
         request.setClasses(classAr);
         request.setTriggers(triggerAr);
-        request.setCheckOnly(false);
+        request.setCheckOnly(true);
+        RunTestsRequest runTestsRequest = new RunTestsRequest();
+        runTestsRequest.setAllTests(true);
+        request.setRunTestsRequest(runTestsRequest);
 
         CompileAndTestResult result = connector.compileAndTest(request);
         System.out.println(result);
