@@ -1,6 +1,10 @@
 docker-force-com
 ================
 
+
+[![Docker Automated build](https://img.shields.io/docker/automated/atsnngs/force-com.svg?maxAge=2592000)](https://hub.docker.com/r/atsnngs/force-com/)
+
+
 A Docker Image for CI/CD Salesforce Apex prorjects.
 
 This project is still work in progress.
@@ -28,14 +32,15 @@ docker run \
 Directory Structure
 -------------------
 
-```
+```sh
 .
-├── src
+├── src # Force IDE project sources
 │   ├── classes
 │   │   └── MyClass.cls
 │   └── triggers
 │       └── MyTrigger.trigger
-└── wsdl
+│
+└── wsdl # Download WSDL files, see refs
     ├── apex.wsdl
     └── enterprise.wsdl
 ```
@@ -48,4 +53,5 @@ TODOs
 Refs
 ----
 
-- https://github.com/forcedotcom/wsc
+- [Downloading Salesforce WSDLs and Client Authentication Certificates](https://help.salesforce.com/HTViewHelpDoc?id=dev_wsdl.htm)
+- [Force.com Web Service Connector (WSC)](https://github.com/forcedotcom/wsc)

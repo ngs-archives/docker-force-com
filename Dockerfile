@@ -10,7 +10,7 @@ RUN curl -Lo wsc-${API_VERSION}.tar.gz https://github.com/forcedotcom/wsc/archiv
 
 WORKDIR /src/wsc-${API_VERSION}
 RUN mvn clean package -Dgpg.skip && mv target/*.jar $JAVA_HOME/lib
-RUN rm -rf /src && mkdir -p ${JAVA_HOME}/lib/force-com-wsdl
+RUN rm -rf /src && mkdir -p ${JAVA_HOME}/lib/force-com-wsdl /src/classes /src/triggers /wsdl
 ADD entrypoint /entrypoint
 
 ENTRYPOINT ["/entrypoint/run.sh"]
