@@ -2,8 +2,7 @@ docker-force-com
 ================
 
 
-[![Docker Automated build](https://img.shields.io/docker/automated/atsnngs/force-com.svg?maxAge=2592000)](https://hub.docker.com/r/atsnngs/force-com/)
-
+[![Docker Automated build](https://img.shields.io/docker/automated/atsnngs/radiko-recorder.svg?maxAge=2592000)](https://hub.docker.com/r/atsnngs/radiko-recorder/)
 
 A Docker Image for CI/CD Salesforce Apex prorjects.
 
@@ -23,7 +22,8 @@ ENVFILE
 
 docker run \
   -v $(pwd)/wsdl:/wsdl \
-  -v $(pwd)/src:/src \
+  -v $(pwd)/src/classes:/src/classes \
+  -v $(pwd)/src/triggers:/src/triggers \
   --rm \
   --env-file envfile.txt \
   atsnngs/force-com

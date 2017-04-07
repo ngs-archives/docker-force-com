@@ -1,13 +1,19 @@
-import java.util.Map;
-import java.util.regex.Pattern;
 import com.sforce.soap.apex.*;
 import com.sforce.soap.enterprise.EnterpriseConnection;
 import com.sforce.ws.ConnectionException;
 import com.sforce.ws.ConnectorConfig;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 public class TestRunner {
 
-    public static void main(String[] args) throws ConnectionException {
+    public static void main(String[] args) throws ConnectionException, IOException {
 
         ConnectorConfig config = new ConnectorConfig();
         Map<String, String> env = System.getenv();
@@ -27,18 +33,39 @@ public class TestRunner {
 
         SoapConnection connector = new SoapConnection(config);
 
-        RunTestsRequest request = new RunTestsRequest();
+        CompileAndTestRequest request = new CompileAndTestRequest();
 
-        request.setClasses(args);
+        List<String> classSources = new ArrayList<String>();
+        List<String> triggerSources = new ArrayList<String>();
 
-        RunTestsResult r = connector.runTests(request);
-        // TODO: compile adn test https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/sforce_api_calls_compileandtest.htm
-
-        for(RunTestFailure t : r.getFailures()){
-            System.out.println(t.getClass() + "." + t.getMethodName());
-            System.out.println(t.getMessage());
-            System.out.println(t.getStackTrace());
-            System.out.println("*****************");
+        try(Stream<Path> stream = Files.find(Paths.get("/src/"), Integer.MAX_VALUE, (path, attr) -> {
+          String strPath = path.toString();
+          return strPath.endsWith(".cls") || strPath.endsWith(".trigger");
+        })){
+          stream.forEach(path -> {
+            try {
+                byte[] encoded = Files.readAllBytes(path);
+                String src = new String(encoded, StandardCharsets.UTF_8);
+                if (path.toString().endsWith(".cls")) {
+                  classSources.add(src);
+                } else {
+                  triggerSources.add(src);
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
+          });
         }
+        String[] classAr = new String[classSources.size()];
+        String[] triggerAr = new String[triggerSources.size()];
+        classAr = classSources.toArray(classAr);
+        triggerAr = triggerSources.toArray(triggerAr);
+        request.setClasses(classAr);
+        request.setTriggers(triggerAr);
+        request.setCheckOnly(false);
+
+        CompileAndTestResult result = connector.compileAndTest(request);
+        System.out.println(result);
+        assert (result.isSuccess());
     }
 }
