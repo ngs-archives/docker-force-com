@@ -138,10 +138,24 @@ public class TestRunner {
         }
         if (rows.size() > 0) {
             System.out.println("[ Test Result ]");
-            printTable(rows, new String[] { " " + ANSI_RESET, "Duration", "Class", "Method" });
+            printTable(rows, new String[] { " ", "Duration", "Class", "Method" });
         }
         if (stackTraces.size() > 0) {
             System.out.println("\n[ Stacktrace ]\n" + String.join("\n", stackTraces));
+        }
+        rows = new ArrayList<Object[]>();
+        for (CodeCoverageResult res : testResult.getCodeCoverage()) {
+            String name = getFullClassName(res.getNamespace(), res.getName());
+            String type = res.getType();
+            Integer ttl = res.getNumLocations();
+            Integer cov = ttl - res.getNumLocationsNotCovered();
+            String lines = String.format("%d/%d", cov, ttl);
+            String par = String.format("%.2f", (double) cov / (double) ttl * 100) + "%";
+            rows.add(new Object[] { type, name, lines, par });
+        }
+        if (rows.size() > 0) {
+            System.out.println("[ Test Coverage ]");
+            printTable(rows, new String[] { "Type", "Name", "Lines", "Coverage" });
         }
         if (result.isSuccess()) {
             System.out.println(String.format("%sSucceeded. %d tests ran. Total time %.3f sec%s", ANSI_GREEN, testResult.getNumTestsRun(), testResult.getTotalTime() / 1000, ANSI_RESET));
