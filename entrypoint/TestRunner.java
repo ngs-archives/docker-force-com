@@ -71,7 +71,7 @@ public class TestRunner {
         triggerAr = triggerSources.toArray(triggerAr);
         request.setClasses(classAr);
         request.setTriggers(triggerAr);
-        request.setCheckOnly(true);
+        request.setCheckOnly(env.get("DEPLOY") != "1");
         RunTestsRequest runTestsRequest = new RunTestsRequest();
         runTestsRequest.setAllTests(true);
         request.setRunTestsRequest(runTestsRequest);
