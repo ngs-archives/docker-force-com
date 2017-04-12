@@ -144,9 +144,9 @@ public class TestRunner {
             System.out.println("\n[ Stacktrace ]\n" + String.join("\n", stackTraces));
         }
         if (result.isSuccess()) {
-            System.out.println(String.format("%sTest succeeded. %d tests ran.%s", ANSI_GREEN, testResult.getNumTestsRun(), ANSI_RESET));
+            System.out.println(String.format("%sSucceeded. %d tests ran. Total time %.3f sec%s", ANSI_GREEN, testResult.getNumTestsRun(), testResult.getTotalTime() / 1000, ANSI_RESET));
         } else {
-            System.out.println(String.format("%sTest failed. %d tests ran. %d failed.%s", ANSI_RED, testResult.getNumTestsRun(), testResult.getNumFailures(), ANSI_RESET));
+            System.out.println(String.format("%sFailed. %d tests ran. %d failed. Total time %.3f sec%s", ANSI_RED, testResult.getNumTestsRun(), testResult.getNumFailures(), testResult.getTotalTime() / 1000, ANSI_RESET));
             System.exit(1);
         }
     }
