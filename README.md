@@ -6,7 +6,7 @@ docker-force-com
 
 A Docker Image for CI/CD Salesforce Apex prorjects.
 
-This project is still work in progress.
+![Result](output.png)
 
 How to Use
 ----------
@@ -44,11 +44,6 @@ Directory Structure
     ├── apex.wsdl
     └── enterprise.wsdl
 ```
-
-TODOs
------
-
-- [ ] [Compile and test](https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/sforce_api_calls_compileandtest.htm)
 
 Refs
 ----
