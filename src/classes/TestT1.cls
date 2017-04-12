@@ -4,11 +4,11 @@
     Account a  = new Account(name='TEST');
     insert(a);
     a = [select id,description from Account where id=:a.id];
-    System.assert(a.description.contains('t1_UPDATE2'));
+    System.assert(a.description.contains('t1_UPDATE'));
   }
   // Test for the class
   public static testMethod void test2(){
     String s = C1.method1();
-    System.assert(s=='HELLO2');
+    System.assert(s=='HELLO');
   }
 }
