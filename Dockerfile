@@ -1,7 +1,7 @@
 FROM frolvlad/alpine-oraclejdk8
 MAINTAINER Atsushi Nagase<a@ngs.io>
 
-ENV API_VERSION '39.0.5'
+ENV API_VERSION '38.0.4'
 RUN apk add --no-cache curl maven
 
 RUN mkdir /src
